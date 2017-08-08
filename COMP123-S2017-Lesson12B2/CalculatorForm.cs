@@ -13,7 +13,7 @@ using System.Windows.Forms;
  * Name: Tom Tsiliopoulos
  * Date: August 3, 2017
  * Description: Calculator Demo Project
- * Version: 0.8 - Added the private _clear method
+ * Version: 0.9 - Refactored the CalculatorButton_Click event handler
  */
 
 namespace COMP123_S2017_Lesson12B2
@@ -78,7 +78,24 @@ namespace COMP123_S2017_Lesson12B2
                 this.IsDecimalClicked = true;
             }
 
-            ResultTextBox.Text += calculatorButton.Text;
+
+            if (ResultTextBox.Text == "0")
+            {
+                if (calculatorButton.Text == ".")
+                {
+                    ResultTextBox.Text += calculatorButton.Text;
+                }
+                else
+                {
+                    ResultTextBox.Text = calculatorButton.Text;
+                }
+            }
+            else
+            {
+                ResultTextBox.Text += calculatorButton.Text;
+            }
+
+
 
             //Debug.WriteLine("A Calculator Button was clicked");
         }
@@ -107,7 +124,8 @@ namespace COMP123_S2017_Lesson12B2
         /// </summary>
         private void _clear()
         {
-            throw new NotImplementedException();
+            this.IsDecimalClicked = false;
+            ResultTextBox.Text = "0";
         }
 
         /// <summary>
@@ -117,7 +135,7 @@ namespace COMP123_S2017_Lesson12B2
         /// <param name="e"></param>
         private void CalculatorForm_Load(object sender, EventArgs e)
         {
-            this.IsDecimalClicked = false;
+            this._clear();
         }
     }
 }
