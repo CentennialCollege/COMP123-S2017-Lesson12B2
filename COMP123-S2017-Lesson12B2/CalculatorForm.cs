@@ -13,7 +13,7 @@ using System.Windows.Forms;
  * Name: Tom Tsiliopoulos
  * Date: August 3, 2017
  * Description: Calculator Demo Project
- * Version: 0.9 - Refactored the CalculatorButton_Click event handler
+ * Version: 1.0 - Added the _calculate and _convertOperand Methods
  */
 
 namespace COMP123_S2017_Lesson12B2
@@ -22,6 +22,10 @@ namespace COMP123_S2017_Lesson12B2
     {
         // PRIVATE INSTANCE VARIABLES
         private bool _isDecimalClicked;
+
+        private string _currentOperator;
+
+        private List<double> _operandList;
 
         // PUBLIC PROPERTIES
         public bool IsDecimalClicked {
@@ -37,6 +41,34 @@ namespace COMP123_S2017_Lesson12B2
             }
 
         }
+
+        public string CurrentOperator {
+
+            get
+            {
+                return this._currentOperator;
+            }
+
+            set
+            {
+                this._currentOperator = value;
+            }
+
+                }
+
+        public List<double> OperandList {
+
+            get
+            {
+                return this._operandList;
+            }
+
+            set
+            {
+                this._operandList = value;
+            }
+
+           }
 
         // CONSTRUCTORS
 
@@ -114,8 +146,48 @@ namespace COMP123_S2017_Lesson12B2
                 case "C":
                     this._clear();
                     break;
+                case "=":
+                    break;
+                case "⌫":
+                    break;
+                case "±":
+                    break;
+                default:
+                    this._calculate(ResultTextBox.Text, operatorButton.Text);
+                    break;
             }
 
+
+        }
+
+        /// <summary>
+        /// This method calculates the result of all the operands in the OperandList
+        /// </summary>
+        /// <param name="text1"></param>
+        /// <param name="text2"></param>
+        private void _calculate(string operandString, string operatorString)
+        {
+            double operand = this._convertOperand(operandString);
+        }
+
+        /// <summary>
+        /// This method converts the string from the ResultTextBox to a number
+        /// </summary>
+        /// <param name="operandString"></param>
+        /// <returns></returns>
+        private double _convertOperand(string operandString)
+        {
+            try
+            {
+                return Convert.ToDouble(operandString);
+            }
+            catch (Exception exception)
+            {
+
+                Debug.WriteLine("An Error Occurred");
+                Debug.WriteLine(exception.Message);
+            }
+            return 0;
 
         }
 
@@ -126,6 +198,8 @@ namespace COMP123_S2017_Lesson12B2
         {
             this.IsDecimalClicked = false;
             ResultTextBox.Text = "0";
+            this.CurrentOperator = "C";
+            this.OperandList = new List<double>();
         }
 
         /// <summary>
