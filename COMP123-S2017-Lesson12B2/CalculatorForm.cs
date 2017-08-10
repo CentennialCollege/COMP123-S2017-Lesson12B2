@@ -13,7 +13,7 @@ using System.Windows.Forms;
  * Name: Tom Tsiliopoulos
  * Date: August 3, 2017
  * Description: Calculator Demo Project
- * Version: 1.1 - Added the _showResult method
+ * Version: 1.2 - Refactored CalculateButton_Click to account for second operand
  */
 
 namespace COMP123_S2017_Lesson12B2
@@ -140,7 +140,15 @@ namespace COMP123_S2017_Lesson12B2
             }
             else
             {
-                ResultTextBox.Text += calculatorButton.Text;
+                if(OperandList.Count > 0)
+                {
+                    ResultTextBox.Text = calculatorButton.Text;
+                }
+                else
+                {
+                    ResultTextBox.Text += calculatorButton.Text;
+                }
+
             }
 
 
