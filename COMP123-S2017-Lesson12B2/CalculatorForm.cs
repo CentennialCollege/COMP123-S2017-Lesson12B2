@@ -13,7 +13,7 @@ using System.Windows.Forms;
  * Name: Tom Tsiliopoulos
  * Date: August 3, 2017
  * Description: Calculator Demo Project
- * Version: 1.2 - Refactored CalculateButton_Click to account for second operand
+ * Version: 1.2 - Fixed bug in CalculatorButton_Click 
  */
 
 namespace COMP123_S2017_Lesson12B2
@@ -28,6 +28,8 @@ namespace COMP123_S2017_Lesson12B2
         private List<double> _operandList;
 
         private double _result;
+
+        private bool _isOperandTwo;
 
         // PUBLIC PROPERTIES
         public bool IsDecimalClicked {
@@ -86,6 +88,20 @@ namespace COMP123_S2017_Lesson12B2
 
         }
 
+        public bool IsOperandTwo
+        {
+
+            get
+            {
+                return this._isOperandTwo;
+            }
+
+            set
+            {
+                this._isOperandTwo = value;
+            }
+        }
+
         // CONSTRUCTORS
 
         /// <summary>
@@ -140,9 +156,12 @@ namespace COMP123_S2017_Lesson12B2
             }
             else
             {
-                if(OperandList.Count > 0)
+                if((OperandList.Count > 0) && (this._isOperandTwo == false))
                 {
+
                     ResultTextBox.Text = calculatorButton.Text;
+                    this._isOperandTwo = true;
+
                 }
                 else
                 {
@@ -196,6 +215,7 @@ namespace COMP123_S2017_Lesson12B2
         {
             this._calculate(operand, this.CurrentOperator);
             ResultTextBox.Text = this.Result.ToString();
+
         }
 
         /// <summary>
@@ -218,6 +238,9 @@ namespace COMP123_S2017_Lesson12B2
                         this.Result = this.OperandList[0] - this.OperandList[1];
                         break;
                 }
+                this.OperandList.Clear();
+                this.OperandList.Add(this.Result);
+                this.IsOperandTwo = false;
             }
 
             this.CurrentOperator = operatorString;
@@ -253,6 +276,8 @@ namespace COMP123_S2017_Lesson12B2
             ResultTextBox.Text = "0";
             this.CurrentOperator = "C";
             this.OperandList = new List<double>();
+            this.IsOperandTwo = false;
+            this.Result = 0;
         }
 
         /// <summary>
